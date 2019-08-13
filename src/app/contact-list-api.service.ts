@@ -9,7 +9,7 @@ import { Contact, ContactType } from './models/contact';
 })
 export class ContactListApiService {
 
-  rootAddress: string = "https://localhost:44346/api/";
+  rootAddress: string = "https://bravicontactlistapi.azurewebsites.net/api/";
 
   constructor(private http: HttpClient) { }
 
