@@ -1,7 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { Contact } from '../models/contact';
 import { ContactListApiService } from '../contact-list-api.service';
+import { config } from 'rxjs';
 
 export interface DialogData {
   personId: number
@@ -17,6 +18,7 @@ export interface DialogData {
 export class EditContactDialogComponent implements OnInit {
 
   constructor(
+    private snackBar: MatSnackBar,
     private contactListApiService: ContactListApiService,
     public dialogRef: MatDialogRef<EditContactDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
@@ -26,7 +28,15 @@ export class EditContactDialogComponent implements OnInit {
   }
 
   save(): void {
-    this.contactListApiService.updateContact(this.data.personId, this.data.contact).subscribe(result => { this.dialogRef.close(); });
+    this.contactListApiService.updateContact(this.data.personId, this.data.contact).subscribe(
+      result => {       
+        this.snackBar.open("Contact Saved!", "OK", { duration: 3000 });
+        this.dialogRef.close(); 
+      },
+      error => {
+        this.snackBar.open(error.message, "OK", { duration: 3000 });
+      }
+    );
   }
 
   ngOnInit() {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ContactListApiService } from '../contact-list-api.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { Person } from '../models/person';
 import { EditContactDialogComponent } from '../edit-contact-dialog/edit-contact-dialog.component';
 import { Contact } from '../models/contact';
@@ -16,7 +16,10 @@ export class PeopleListComponent implements OnInit {
 
   people: Person[] = [];
 
-  constructor(public dialog: MatDialog, private contactListApiService: ContactListApiService) { }
+  constructor(
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog, 
+    private contactListApiService: ContactListApiService) { }
 
   editContact(personId: number, contact: Contact): void {
     const dialogRef = this.dialog.open(EditContactDialogComponent, {
@@ -30,9 +33,15 @@ export class PeopleListComponent implements OnInit {
   }
 
   deleteContact(personId: number, contact: Contact) {
-    this.contactListApiService.deleteContact(personId, contact).subscribe(result => {
-      this.refreshContactList();
-    });
+    this.contactListApiService.deleteContact(personId, contact).subscribe(
+      result => {       
+        this.snackBar.open("Contact Deleted!", "OK", { duration: 3000 });
+        this.refreshContactList();
+      },
+      error => {
+        this.snackBar.open(error.message, "OK", { duration: 3000 });
+      }
+    );
   }
 
   addContact(personId: number): void {
@@ -54,9 +63,15 @@ export class PeopleListComponent implements OnInit {
   }
 
   deletePerson(personId: number) {
-    this.contactListApiService.deletePerson(personId).subscribe(result => {
-      this.refreshContactList();
-    });
+    this.contactListApiService.deletePerson(personId).subscribe(
+      result => {       
+        this.snackBar.open("Person Deleted!", "OK", { duration: 3000 });
+        this.refreshContactList();
+      },
+      error => {
+        this.snackBar.open(error.message, "OK", { duration: 3000 });
+      }
+    );
   }
 
   refreshContactList() {

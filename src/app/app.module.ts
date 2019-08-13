@@ -20,7 +20,7 @@ import { AddPersonContactDialogComponent } from './add-person-contact-dialog/add
     PeopleListComponent,
     EditContactDialogComponent,
     AddContactDialogComponent,
-    AddPersonContactDialogComponent
+    AddPersonContactDialogComponent    
   ],
   imports: [
     BrowserModule,
