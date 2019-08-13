@@ -14,7 +14,7 @@ import { AddPersonContactDialogComponent } from '../add-person-contact-dialog/ad
 })
 export class PeopleListComponent implements OnInit {
 
-  private people: Person[] = [];
+  people: Person[] = [];
 
   constructor(public dialog: MatDialog, private contactListApiService: ContactListApiService) { }
 

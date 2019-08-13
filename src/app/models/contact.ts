@@ -2,7 +2,7 @@ export class Contact {
     type: ContactType;
     contactId: number;
     name: string;
-    contactInfo: string;
+    contactData: string;
 }
 
 export enum ContactType{
